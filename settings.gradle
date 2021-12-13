@@ -1,4 +1,4 @@
-rootProject.name = 'ms_testmercadolibre'
+rootProject.name = 'ms-testmercadolibre'
 
 include ':app-service'
 project(':app-service').projectDir = file('./applications/app-service')

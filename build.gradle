@@ -5,7 +5,7 @@ buildscript {
     ext {
         springBootVersion = '2.4.5'
         sonarVersion = '3.0'
-        jacocoVersion = '0.8.5'
+        jacocoVersion = '0.8.7'
         lombokVersion = '1.18.16'
         springCloudVersion = 'Greenwich.M1'
         springContextVersion = '5.3.7'
@@ -16,6 +16,7 @@ buildscript {
     }
 
     dependencies {
+        classpath 'com.google.cloud.tools:appengine-gradle-plugin:2.4.2'
         classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
     }
 }
@@ -23,6 +24,8 @@ buildscript {
 allprojects {
     apply plugin: 'java'
     apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'com.google.cloud.tools.appengine'
+    apply plugin: 'jacoco'
 
     repositories {
         mavenCentral()
@@ -35,6 +38,8 @@ subprojects {
     apply plugin: 'java'
     apply plugin: 'jacoco'
     apply plugin: 'io.spring.dependency-management'
+    apply plugin: 'com.google.cloud.tools.appengine'
+    apply plugin: 'jacoco'
 
     sourceCompatibility = JavaVersion.VERSION_11
     targetCompatibility = JavaVersion.VERSION_11
@@ -46,6 +51,7 @@ subprojects {
     }
 
     dependencies {
+        compile 'com.google.cloud.tools:appengine-plugins-core:0.9.5'
         implementation 'com.fasterxml.jackson.core:jackson-annotations:2.12.3'
         implementation "org.springframework:spring-context"
         implementation "org.springframework.boot:spring-boot-starter-actuator"
@@ -58,6 +64,11 @@ subprojects {
         testCompileOnly  "org.projectlombok:lombok:${lombokVersion}"
         testAnnotationProcessor  "org.projectlombok:lombok:${lombokVersion}"
         implementation platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
+
+        //Metricas
+        runtime 'org.jolokia:jolokia-core'
+        compile 'org.influxdb:influxdb-java:2.7'
+        compile 'io.dropwizard.metrics:metrics-core'
     }
 
     dependencyManagement {
@@ -65,6 +76,40 @@ subprojects {
             mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
             mavenBom "org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}"
         }
+    }
+
+    configurations.all {
+        exclude group: "org.apache.logging.log4j", module:"log4j-to-slf4j"
+        exclude group: "org.slf4j", module: "slf4j-log4j12"
+    }
+
+    test.finalizedBy(project.tasks.jacocoTestReport)
+
+    jacocoTestReport {
+        reports {
+            xml.enabled true
+            csv.enabled false
+        }
+    }
+}
+
+jacoco {
+    toolVersion = "${jacocoVersion}"
+    reportsDir = file("$buildDir/reports")
+}
+
+task jacocoMergedReport(type: JacocoReport) {
+    dependsOn = subprojects.jacocoTestReport
+    additionalSourceDirs.setFrom files(subprojects.sourceSets.main.allSource.srcDirs)
+    sourceDirectories.setFrom files(subprojects.sourceSets.main.allSource.srcDirs)
+    classDirectories.setFrom files(subprojects.sourceSets.main.output)
+    executionData.setFrom project.fileTree(dir: '.', include: '**/build/jacoco/test.exec')
+    reports {
+        xml.enabled true
+        xml.destination = file("${buildDir}/jacoco/report.xml")
+        csv.enabled false
+        html.enabled true
+        html.destination = file("${buildDir}/jacoco")
     }
 }
 

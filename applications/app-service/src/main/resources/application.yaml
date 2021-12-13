@@ -5,7 +5,7 @@ server:
 
 spring:
   application:
-    name: ms_testmercadolibre
+    name: ms-testmercadolibre
   profiles:
     active: local
     include:

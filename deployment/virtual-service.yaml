@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: ms-testmercadolibre
+  labels:
+    app: ms-testmercadolibre
+spec:
+  spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080
+      name: http
+  selector:
+    app: ms-testmercadolibre
