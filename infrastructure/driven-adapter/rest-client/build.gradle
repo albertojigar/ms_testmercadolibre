@@ -1,0 +1,8 @@
+
+dependencies {
+    implementation project(':model')
+    implementation "org.springframework:spring-context"
+    compile 'org.projectreactor:reactor-spring:1.0.1.RELEASE'
+    compile 'org.springframework.boot:spring-boot-starter-webflux'
+    compile group: 'org.reactivecommons', name: 'async-commons-starter', version: '0.6.2-beta'
+}

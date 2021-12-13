@@ -1,0 +1,57 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api/v1/
+
+spring:
+  application:
+    name: ms_testmercadolibre
+  profiles:
+    active: local
+    include:
+  devtools:
+    add-properties: false
+
+management:
+  endpoints:
+    enabled-by-default: false
+    web:
+      exposure:
+        include: '*'
+      base-path: /api/v1/
+  endpoint:
+    health:
+      enabled: true
+      show-details: never
+
+logging:
+  level:
+    root: ${LOG4J_LEVEL}
+    web: OFF
+    netty: OFF
+
+springdoc:
+  api-docs:
+    groups:
+      enabled: true
+  swagger-ui:
+    path: /swagger-ui.html
+    display-request-duration: true
+    groups-order: DESC
+
+info:
+  app:
+    name: ${spring.application.name}
+    description: This is a technical test to Mercado Libre
+    version: 1.0.0
+
+adapters:
+  rest-client:
+    timeout: ${APIC_TIMEOUT}
+    resources:
+      items: https://api.mercadolibre.com/items/
+
+routes:
+  base-path: /api/v1
+  coupon:
+    path: /coupon

@@ -1,0 +1,17 @@
+rootProject.name = 'ms_testmercadolibre'
+
+include ':app-service'
+project(':app-service').projectDir = file('./applications/app-service')
+
+include ':model'
+project(':model').projectDir = file('./domain/model')
+
+include ':usecase'
+project(':usecase').projectDir = file('./domain/usecase')
+
+include ':web'
+project(':web').projectDir = file('./infrastructure/entry-points/web')
+
+include ':rest-client'
+project(':rest-client').projectDir = file('./infrastructure/driven-adapter/rest-client')
+

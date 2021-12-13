@@ -1,0 +1,19 @@
+apply plugin: 'org.springframework.boot'
+
+dependencies {
+    implementation project(':model')
+    implementation project(':usecase')
+    implementation project(':web')
+    implementation project(':rest-client')
+    //implementation group: 'org.springframework.boot', name: 'spring-boot-starter-undertow', version: '2.4.2'
+    //compile 'org.springframework.boot:spring-boot-starter'
+    //runtime('org.springframework.boot:spring-boot-devtools')
+    implementation "org.springframework:spring-context"
+    implementation "org.springframework.boot:spring-boot-starter"
+    runtimeOnly "org.springframework.boot:spring-boot-devtools"
+}
+
+task explodedJar(type: Copy) {
+    with jar
+    into "${buildDir}/exploded"
+}
