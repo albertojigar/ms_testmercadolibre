@@ -58,5 +58,4 @@ public abstract class AbstractHandler {
                 .contentType(APPLICATION_JSON)
                 .bodyValue(body);
     }
-
 }

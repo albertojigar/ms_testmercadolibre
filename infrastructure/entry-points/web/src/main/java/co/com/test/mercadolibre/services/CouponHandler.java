@@ -24,4 +24,13 @@ public class CouponHandler extends AbstractHandler{
     public Mono<ServerResponse> maxItemsCoupon(ServerRequest request) {
         return getResponse(request,couponUseCase::maxItemsCoupon);
     }
+
+    /**
+     * Handler method, contains the call to item use case
+     * @param request Object with all the request information
+     * @return Mono Object with the response information
+     */
+    public Mono<ServerResponse> couponStats(ServerRequest request) {
+        return getResponse(request,couponUseCase::couponStats);
+    }
 }

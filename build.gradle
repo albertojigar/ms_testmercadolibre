@@ -65,6 +65,9 @@ subprojects {
         testAnnotationProcessor  "org.projectlombok:lombok:${lombokVersion}"
         implementation platform("org.springframework.boot:spring-boot-dependencies:${springBootVersion}")
 
+        testImplementation 'io.projectreactor:reactor-test'
+        testImplementation 'org.springframework.boot:spring-boot-starter-test'
+
         //Metricas
         runtime 'org.jolokia:jolokia-core'
         compile 'org.influxdb:influxdb-java:2.7'

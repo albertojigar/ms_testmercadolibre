@@ -7,7 +7,7 @@ spring:
   application:
     name: ms-testmercadolibre
   profiles:
-    active: local
+    active: ${SPRING_PROFILES_ACTIVE}
     include:
   devtools:
     add-properties: false
@@ -55,3 +55,4 @@ routes:
   base-path: /api/v1
   coupon:
     path: /coupon
+    stats: /coupon/stats

@@ -8,9 +8,12 @@ import org.springframework.context.annotation.Configuration;
 @Data
 public class CouponRoutesProperties {
 
-    @Value("${routes.base-path:/api/v1/coupon}")
+    @Value("${routes.base-path:/api/v1}")
     private String basePath;
 
     @Value("${routes.coupon.path:/coupon}")
     private String routeCoupon;
+
+    @Value("${routes.coupon.stats:/coupon/stats}")
+    private String couponStats;
 }

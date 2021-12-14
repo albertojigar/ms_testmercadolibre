@@ -2,6 +2,7 @@
 dependencies {
     implementation project(':usecase')
     implementation project(':model')
+    testCompile project(':model').sourceSets.test.output
 
     implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation "org.springdoc:springdoc-openapi-webflux-ui:1.5.8"
